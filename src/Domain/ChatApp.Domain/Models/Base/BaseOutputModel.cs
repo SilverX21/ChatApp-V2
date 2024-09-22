@@ -1,4 +1,6 @@
-﻿namespace ChatApp.Domain.Models.Base;
+﻿using System.Net;
+
+namespace ChatApp.Domain.Models.Base;
 public class BaseOutputModel<T> where T : class
 {
     public bool Success { get; set; }
@@ -7,5 +9,5 @@ public class BaseOutputModel<T> where T : class
 
     public string Message { get; set; } = string.Empty;
 
-    public int StatusCode { get; set; }
+    public HttpStatusCode StatusCode { get; set; }
 }

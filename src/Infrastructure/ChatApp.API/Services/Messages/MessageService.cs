@@ -1,4 +1,5 @@
-﻿using ChatApp.API.Data.DbContext;
+﻿using System.Net;
+using ChatApp.API.Data.DbContext;
 using ChatApp.Domain.Models.Base;
 using ChatApp.Domain.Models.Messages;
 using Microsoft.EntityFrameworkCore;
@@ -20,7 +21,7 @@ public class MessageService(ApplicationDbContext context, ILogger logger) : IMes
                 {
                     Success = false,
                     Message = "There is nothing to create, the message is null.",
-                    StatusCode = 400
+                    StatusCode = HttpStatusCode.BadRequest
                 };
             }
 
@@ -32,7 +33,7 @@ public class MessageService(ApplicationDbContext context, ILogger logger) : IMes
             {
                 Success = true,
                 Message = "The message was created!",
-                StatusCode = 201
+                StatusCode = HttpStatusCode.Created
             };
         }
         catch (Exception ex)
@@ -42,7 +43,7 @@ public class MessageService(ApplicationDbContext context, ILogger logger) : IMes
             {
                 Success = false,
                 Message = "There was an error while trying to create the message. please try again later.",
-                StatusCode = 500
+                StatusCode = HttpStatusCode.InternalServerError
             };
         }
     }
@@ -59,7 +60,7 @@ public class MessageService(ApplicationDbContext context, ILogger logger) : IMes
                 {
                     Success = false,
                     Message = "There is nothing to create, the message is null.",
-                    StatusCode = 400
+                    StatusCode = HttpStatusCode.BadRequest
                 };
             }
 
@@ -72,7 +73,7 @@ public class MessageService(ApplicationDbContext context, ILogger logger) : IMes
                 {
                     Success = false,
                     Message = "There message requested wasn't found.",
-                    StatusCode = 404
+                    StatusCode = HttpStatusCode.NotFound
                 };
             }
 
@@ -85,7 +86,7 @@ public class MessageService(ApplicationDbContext context, ILogger logger) : IMes
             {
                 Success = true,
                 Message = "The message was deleted!",
-                StatusCode = 200
+                StatusCode = HttpStatusCode.OK
             };
         }
         catch (Exception ex)
@@ -95,7 +96,7 @@ public class MessageService(ApplicationDbContext context, ILogger logger) : IMes
             {
                 Success = false,
                 Message = "There was an error while trying to create the message. please try again later.",
-                StatusCode = 500
+                StatusCode = HttpStatusCode.InternalServerError
             };
         }
     }
@@ -115,7 +116,7 @@ public class MessageService(ApplicationDbContext context, ILogger logger) : IMes
                     Response = Enumerable.Empty<MessageModel>().ToList(),
                     Success = false,
                     Message = "There was an error while trying to fetch all messages! Please try again later.",
-                    StatusCode = 404
+                    StatusCode = HttpStatusCode.NotFound
                 };
             }
 
@@ -126,7 +127,7 @@ public class MessageService(ApplicationDbContext context, ILogger logger) : IMes
                 Response = result,
                 Success = true,
                 Message = "All of the messages were fetched!",
-                StatusCode = 200
+                StatusCode = HttpStatusCode.OK
             };
         }
         catch (Exception ex)
@@ -137,7 +138,7 @@ public class MessageService(ApplicationDbContext context, ILogger logger) : IMes
                 Response = null,
                 Success = false,
                 Message = "There was an error while trying to fetch all messages! Please try again later.",
-                StatusCode = 500
+                StatusCode = HttpStatusCode.InternalServerError
             };
         }
     }
@@ -155,7 +156,7 @@ public class MessageService(ApplicationDbContext context, ILogger logger) : IMes
                     Response = null,
                     Success = false,
                     Message = "Please provide the user that you want to fetch the messages.",
-                    StatusCode = 400
+                    StatusCode = HttpStatusCode.BadRequest
                 };
             }
 
@@ -170,7 +171,7 @@ public class MessageService(ApplicationDbContext context, ILogger logger) : IMes
                     Response = Enumerable.Empty<MessageModel>().ToList(),
                     Success = false,
                     Message = "There was an error while trying to fetch all messages! Please try again later.",
-                    StatusCode = 404
+                    StatusCode = HttpStatusCode.NotFound
                 };
             }
 
@@ -181,7 +182,7 @@ public class MessageService(ApplicationDbContext context, ILogger logger) : IMes
                 Response = result,
                 Success = true,
                 Message = "All of the messages from the user provided were fetched!",
-                StatusCode = 200
+                StatusCode = HttpStatusCode.OK
             };
         }
         catch (Exception ex)
@@ -192,7 +193,7 @@ public class MessageService(ApplicationDbContext context, ILogger logger) : IMes
                 Response = null,
                 Success = false,
                 Message = "There was an error while trying to get the given user messages. Please try again later!",
-                StatusCode = 500
+                StatusCode = HttpStatusCode.InternalServerError
             };
         }
     }
@@ -209,7 +210,7 @@ public class MessageService(ApplicationDbContext context, ILogger logger) : IMes
                 {
                     Success = false,
                     Message = "There is nothing to create, the message is null.",
-                    StatusCode = 400
+                    StatusCode = HttpStatusCode.BadRequest
                 };
             }
 
@@ -222,7 +223,7 @@ public class MessageService(ApplicationDbContext context, ILogger logger) : IMes
                 {
                     Success = false,
                     Message = "There isn't a message the provided id.",
-                    StatusCode = 404
+                    StatusCode = HttpStatusCode.NotFound
                 };
             }
 
@@ -232,7 +233,7 @@ public class MessageService(ApplicationDbContext context, ILogger logger) : IMes
                 Response = result,
                 Success = true,
                 Message = "Message found.",
-                StatusCode = 200
+                StatusCode = HttpStatusCode.OK
             };
         }
         catch (Exception ex)
@@ -243,7 +244,7 @@ public class MessageService(ApplicationDbContext context, ILogger logger) : IMes
                 Response = null,
                 Success = false,
                 Message = "There was an error while trying to fetch the message with the given id. Please try again",
-                StatusCode = 500
+                StatusCode = HttpStatusCode.InternalServerError
             };
         }
     }

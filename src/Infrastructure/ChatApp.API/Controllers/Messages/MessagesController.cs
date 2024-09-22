@@ -1,4 +1,5 @@
-﻿using ChatApp.Domain.Models.Base;
+﻿using System.Net;
+using ChatApp.Domain.Models.Base;
 using ChatApp.Domain.Models.Messages;
 using ChatApp.Domain.Models.User;
 using ChatApp.Domain.Validators.MessageValidator;
@@ -49,7 +50,7 @@ public class MessagesController : ControllerBase
             _logger.Warning($"The message object in the input was not valid: {validations.ToString(";")}");
             return BadRequest(new BaseOutputModel<MessageModel>
             {
-                StatusCode = 400,
+                StatusCode = HttpStatusCode.BadRequest,
                 Success = false,
                 Response = null,
                 Message = $"The input message was invalid, please validate the following: {validations.ToString("; ")}"
@@ -73,7 +74,7 @@ public class MessagesController : ControllerBase
             _logger.Warning($"No messageId was defined to delete.");
             return BadRequest(new BaseOutputModel<MessageModel>
             {
-                StatusCode = 400,
+                StatusCode = HttpStatusCode.BadRequest,
                 Success = false,
                 Response = null,
                 Message = $"Please define the message you want to delete."
@@ -114,7 +115,7 @@ public class MessagesController : ControllerBase
             _logger.Warning($"No userId was defined to get all of the messages.");
             return BadRequest(new BaseOutputModel<MessageModel>
             {
-                StatusCode = 400,
+                StatusCode = HttpStatusCode.BadRequest,
                 Success = false,
                 Response = null,
                 Message = $"Please define the user of the messages you want to fetch."
@@ -138,7 +139,7 @@ public class MessagesController : ControllerBase
             _logger.Warning($"No messageId was defined to get a given messages.");
             return BadRequest(new BaseOutputModel<MessageModel>
             {
-                StatusCode = 400,
+                StatusCode = HttpStatusCode.BadRequest,
                 Success = false,
                 Response = null,
                 Message = $"Please define the message you want to fetch."
@@ -166,11 +167,11 @@ public class MessagesController : ControllerBase
     {
         return result.StatusCode switch
         {
-            200 => Ok(result),
-            201 => Created(string.Empty, result),
-            400 => BadRequest(result),
-            404 => NotFound(result),
-            500 => StatusCode(500, result),
+            HttpStatusCode.OK => Ok(result),
+            HttpStatusCode.Created => Created(string.Empty, result),
+            HttpStatusCode.BadRequest => BadRequest(result),
+            HttpStatusCode.NotFound => NotFound(result),
+            HttpStatusCode.InternalServerError => StatusCode(500, result),
             _ => BadRequest(result),
         };
     }
