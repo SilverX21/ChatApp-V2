@@ -8,6 +8,7 @@ using System.Security.Claims;
 using ChatApp.API.Services.Messages;
 using ChatApp.Domain.Helpers;
 using FluentValidation.Results;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ILogger = Serilog.ILogger;
 
@@ -24,8 +25,6 @@ public class MessagesController : ControllerBase
     private MessageValidator _messageValidator;
     private readonly HttpResponseHelper _httpResponseHelper;
 
-
-    // Constructor
     public MessagesController(IMessageService messageService, ILogger logger, UserManager<UserModel> userManager)
     {
         _messageService = messageService;
@@ -34,7 +33,7 @@ public class MessagesController : ControllerBase
         _messageValidator = new MessageValidator();
     }
 
-    #endregion
+    #endregion Constructor and interfaces
 
     #region Public Methods
 
@@ -88,6 +87,7 @@ public class MessagesController : ControllerBase
     }
 
     [HttpGet]
+    [Authorize]
     [ProducesResponseType<MessageModel>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -151,12 +151,9 @@ public class MessagesController : ControllerBase
         return _httpResponseHelper.GenerateMessageResponse(result);
     }
 
-    #endregion
-
+    #endregion Public Methods
 
     #region Private Methods
-
-    
 
     /// <summary>
     /// Validates the message from a user input
@@ -170,5 +167,5 @@ public class MessagesController : ControllerBase
         return validationResults;
     }
 
-    #endregion
+    #endregion Private Methods
 }
