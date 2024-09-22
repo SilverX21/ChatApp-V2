@@ -1,6 +1,8 @@
 ﻿using System.Net;
 using ChatApp.API.Data.DbContext;
 using ChatApp.Domain.Models.Auth;
+using ChatApp.Domain.Models.Auth.Login;
+using ChatApp.Domain.Models.Auth.Register;
 using ChatApp.Domain.Models.Base;
 using ChatApp.Domain.Models.User;
 using Microsoft.AspNetCore.Identity;
@@ -15,14 +17,14 @@ public class AuthService(ApplicationDbContext context, ILogger logger, UserManag
     #region Public Methods
 
     /// <inheritdoc/>
-    public async Task<BaseOutputModel<RegisterModel>> RegisterAsync(RegisterModel model)
+    public async Task<BaseOutputModel<RegisterOutputModel>> RegisterAsync(RegisterInputModel model)
     {
         try
         {
             if (model is null)
             {
                 logger.Warning("");
-                return new BaseOutputModel<RegisterModel>
+                return new BaseOutputModel<RegisterOutputModel>
                 {
                     Message = "",
                     Response = null,
@@ -36,7 +38,7 @@ public class AuthService(ApplicationDbContext context, ILogger logger, UserManag
             if (user != null)
             {
                 logger.Warning("");
-                return new BaseOutputModel<RegisterModel>
+                return new BaseOutputModel<RegisterOutputModel>
                 {
                     Message = "",
                     Response = null,
@@ -58,7 +60,7 @@ public class AuthService(ApplicationDbContext context, ILogger logger, UserManag
             if (!result.Succeeded)
             {
                 logger.Warning("");
-                return new BaseOutputModel<RegisterModel>
+                return new BaseOutputModel<RegisterOutputModel>
                 {
                     Message = "",
                     Response = null,
@@ -67,7 +69,7 @@ public class AuthService(ApplicationDbContext context, ILogger logger, UserManag
                 };
             }
 
-            return new BaseOutputModel<RegisterModel>
+            return new BaseOutputModel<RegisterOutputModel>
             {
                 Message = "",
                 Response = null,
@@ -78,10 +80,14 @@ public class AuthService(ApplicationDbContext context, ILogger logger, UserManag
         catch (Exception ex)
         {
             logger.Error($"");
-            return new BaseOutputModel<RegisterModel>
+            return new BaseOutputModel<RegisterOutputModel>
             {
                 Message = "",
-                Response = null,
+                Response = new RegisterOutputModel()
+                {
+                    Email = model.Email,
+                    UserName = model.UserName
+                },
                 StatusCode = HttpStatusCode.InternalServerError,
                 Success = false
             };
@@ -89,14 +95,14 @@ public class AuthService(ApplicationDbContext context, ILogger logger, UserManag
     }
 
     /// <inheritdoc/>
-    public async Task<BaseOutputModel<LoginModel>> LoginAsync(LoginModel model)
+    public async Task<BaseOutputModel<LoginOutputModel>> LoginAsync(LoginInputModel model)
     {
         try
         {
             if (model is null)
             {
                 logger.Warning("");
-                return new BaseOutputModel<LoginModel>
+                return new BaseOutputModel<LoginOutputModel>
                 {
                     Message = "",
                     Response = null,
@@ -110,10 +116,13 @@ public class AuthService(ApplicationDbContext context, ILogger logger, UserManag
             if (user is null)
             {
                 logger.Warning("");
-                return new BaseOutputModel<LoginModel>
+                return new BaseOutputModel<LoginOutputModel>
                 {
                     Message = "",
-                    Response = null,
+                    Response = new LoginOutputModel
+                    {
+                        Email = model.Email
+                    },
                     StatusCode = HttpStatusCode.BadRequest,
                     Success = false
                 };
@@ -124,20 +133,23 @@ public class AuthService(ApplicationDbContext context, ILogger logger, UserManag
             if (!isValid)
             {
                 logger.Warning("");
-                return new BaseOutputModel<LoginModel>
+                return new BaseOutputModel<LoginOutputModel>
                 {
                     Message = "",
-                    Response = null,
+                    Response = new LoginOutputModel
+                    {
+                        Email = model.Email
+                    },
                     StatusCode = HttpStatusCode.BadRequest,
                     Success = false
                 };
             }
 
             //TODO: JWT Token
-            var loginResult = new BaseOutputModel<LoginModel>
+            var loginResult = new BaseOutputModel<LoginOutputModel>
             {
                 Message = "",
-                Response = new LoginModel()
+                Response = new LoginOutputModel()
                 {
                     Email = user.Email,
                     Token = "TODO: REPLACE THIS WITH ACTUAL TOKEN"
@@ -148,11 +160,14 @@ public class AuthService(ApplicationDbContext context, ILogger logger, UserManag
 
             if (string.IsNullOrWhiteSpace(loginResult.Response.Email) || string.IsNullOrWhiteSpace(loginResult.Response.Token))
             {
-                logger.Error("");
-                return new BaseOutputModel<LoginModel>
+                logger.Warning("");
+                return new BaseOutputModel<LoginOutputModel>
                 {
                     Message = "Please, check if the user or the password are correct.",
-                    Response = null,
+                    Response = new LoginOutputModel
+                    {
+                        Email = model.Email
+                    },
                     StatusCode = HttpStatusCode.BadRequest,
                     Success = false
                 };
@@ -162,15 +177,32 @@ public class AuthService(ApplicationDbContext context, ILogger logger, UserManag
         }
         catch (Exception ex)
         {
-            Console.WriteLine(ex);
-            throw;
+            logger.Error("");
+            return new BaseOutputModel<LoginOutputModel>
+            {
+                Message = "Please, check if the user or the password are correct.",
+                Response = new LoginOutputModel
+                {
+                    Email = model.Email
+                },
+                StatusCode = HttpStatusCode.BadRequest,
+                Success = false
+            };
         }
     }
 
     /// <inheritdoc/>
     public async Task<bool> LogoutAsync()
     {
-        throw new NotImplementedException();
+        try
+        {
+            return true;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            return false;
+        }
     }
 
     #endregion

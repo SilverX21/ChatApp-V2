@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ChatApp.Domain.Models.Auth;
-public class RegisterModel
+namespace ChatApp.Domain.Models.Auth.Register;
+public class RegisterInputModel
 {
     public string UserName { get; set; }
     public string Name { get; set; }
@@ -9,5 +9,4 @@ public class RegisterModel
 
     [EmailAddress]
     public string Email { get; set; }
-    //public string Role { get; set; }
 }

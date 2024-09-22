@@ -1,6 +1,7 @@
 ﻿using ChatApp.API.Services.Auth;
 using ChatApp.Domain.Helpers;
-using ChatApp.Domain.Models.Auth;
+using ChatApp.Domain.Models.Auth.Login;
+using ChatApp.Domain.Models.Auth.Register;
 using ChatApp.Domain.Models.Messages;
 using Microsoft.AspNetCore.Mvc;
 
@@ -26,7 +27,7 @@ public class AuthController : ControllerBase
     [ProducesResponseType<MessageModel>(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> Register([FromBody] RegisterModel model)
+    public async Task<IActionResult> Register([FromBody] RegisterInputModel model)
     {
         //create validator
 
@@ -41,7 +42,7 @@ public class AuthController : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> Login([FromBody] LoginModel model)
+    public async Task<IActionResult> Login([FromBody] LoginInputModel model)
     {
 
         var result = await _authService.LoginAsync(model);
