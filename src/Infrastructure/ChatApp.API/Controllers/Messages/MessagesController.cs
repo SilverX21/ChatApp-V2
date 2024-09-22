@@ -6,6 +6,7 @@ using ChatApp.Domain.Validators.MessageValidator;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 using ChatApp.API.Services.Messages;
+using ChatApp.Domain.Helpers;
 using FluentValidation.Results;
 using Microsoft.AspNetCore.Mvc;
 using ILogger = Serilog.ILogger;
@@ -21,7 +22,7 @@ public class MessagesController : ControllerBase
     private readonly IMessageService _messageService;
     private readonly ILogger _logger;
     private MessageValidator _messageValidator;
-    private readonly UserManager<UserModel> _userManager;
+    private readonly HttpResponseHelper _httpResponseHelper;
 
 
     // Constructor
@@ -29,7 +30,7 @@ public class MessagesController : ControllerBase
     {
         _messageService = messageService;
         _logger = logger;
-        _userManager = userManager;
+        _httpResponseHelper = new HttpResponseHelper();
         _messageValidator = new MessageValidator();
     }
 
@@ -59,7 +60,7 @@ public class MessagesController : ControllerBase
 
         var result = await _messageService.CreateMessage(message);
 
-        return GenerateMessageResponse(result);
+        return _httpResponseHelper.GenerateMessageResponse(result);
     }
 
     [HttpDelete("{messageId}")]
@@ -83,7 +84,7 @@ public class MessagesController : ControllerBase
 
         var result = await _messageService.DeleteMessage(messageId);
 
-        return GenerateMessageResponse(result);
+        return _httpResponseHelper.GenerateMessageResponse(result);
     }
 
     [HttpGet]
@@ -96,11 +97,10 @@ public class MessagesController : ControllerBase
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
         var user = User.Identity.Name;
         var user2 = User.Identity;
-        var teste = _userManager.GetUserId(HttpContext.User);
 
         var result = await _messageService.GetAllMessages();
 
-        return GenerateMessageResponse(result);
+        return _httpResponseHelper.GenerateMessageResponse(result);
     }
 
     [HttpGet("{userId}")]
@@ -124,7 +124,7 @@ public class MessagesController : ControllerBase
 
         var result = await _messageService.GetAllMessagesByUser(userId);
 
-        return GenerateMessageResponse(result);
+        return _httpResponseHelper.GenerateMessageResponse(result);
     }
 
     [HttpGet("{messageId}")]
@@ -148,7 +148,7 @@ public class MessagesController : ControllerBase
 
         var result = await _messageService.GetMessageById(messageId);
 
-        return GenerateMessageResponse(result);
+        return _httpResponseHelper.GenerateMessageResponse(result);
     }
 
     #endregion
@@ -156,25 +156,7 @@ public class MessagesController : ControllerBase
 
     #region Private Methods
 
-    /// <summary>
-    /// Creates the right return for a given response from the server
-    /// </summary>
-    /// <typeparam name="T">Type of the Model that will be validated</typeparam>
-    /// <param name="result">Result given from the server given the user input</param>
-    /// <returns>IActionResult with the correct status code</returns>
-    public IActionResult GenerateMessageResponse<T>(BaseOutputModel<T> result) where T : class
-
-    {
-        return result.StatusCode switch
-        {
-            HttpStatusCode.OK => Ok(result),
-            HttpStatusCode.Created => Created(string.Empty, result),
-            HttpStatusCode.BadRequest => BadRequest(result),
-            HttpStatusCode.NotFound => NotFound(result),
-            HttpStatusCode.InternalServerError => StatusCode(500, result),
-            _ => BadRequest(result),
-        };
-    }
+    
 
     /// <summary>
     /// Validates the message from a user input
