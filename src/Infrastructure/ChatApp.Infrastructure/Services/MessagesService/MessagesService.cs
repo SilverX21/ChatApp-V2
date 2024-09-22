@@ -218,7 +218,7 @@
 //                return new BaseOutputModel<MessageModel>
 //                {
 //                    Success = false,
-//                    Message = "There isn't a message the the provided id.",
+//                    Message = "There isn't a message the provided id.",
 //                    StatusCode = 404
 //                };
 //            }
