@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 
 namespace ChatApp.API.Controllers;
+
 [ApiController]
 [Route("[controller]")]
 public class WeatherForecastController : ControllerBase
