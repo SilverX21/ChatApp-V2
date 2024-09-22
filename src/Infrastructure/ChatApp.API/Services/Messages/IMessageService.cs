@@ -1,7 +1,8 @@
 ﻿using ChatApp.Domain.Models.Base;
 using ChatApp.Domain.Models.Messages;
 
-namespace ChatApp.Infrastructure.Services.MessagesService;
+namespace ChatApp.API.Services.Messages;
+
 public interface IMessageService
 {
     /// <summary>

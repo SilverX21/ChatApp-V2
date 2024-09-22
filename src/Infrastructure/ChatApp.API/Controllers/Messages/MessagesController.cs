@@ -2,9 +2,9 @@
 using ChatApp.Domain.Models.Messages;
 using ChatApp.Domain.Models.User;
 using ChatApp.Domain.Validators.MessageValidator;
-using ChatApp.Infrastructure.Services.MessagesService;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
+using ChatApp.API.Services.Messages;
 using FluentValidation.Results;
 using Microsoft.AspNetCore.Mvc;
 using ILogger = Serilog.ILogger;

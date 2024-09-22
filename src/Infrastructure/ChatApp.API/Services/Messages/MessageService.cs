@@ -1,10 +1,11 @@
-﻿using ChatApp.Domain.Models.Base;
+﻿using ChatApp.API.Data.DbContext;
+using ChatApp.Domain.Models.Base;
 using ChatApp.Domain.Models.Messages;
-using ChatApp.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using ILogger = Serilog.ILogger;
 
-namespace ChatApp.Infrastructure.Services.MessagesService;
+namespace ChatApp.API.Services.Messages;
+
 public class MessageService(ApplicationDbContext context, ILogger logger) : IMessageService
 {
     /// <inheritdoc/>
