@@ -9,13 +9,13 @@ public class MessageModel
 
     [MaxLength(1000)]
     [Required]
-    public string Content { get; set; } = string.Empty;
+    public string Content { get; set; }
 
     public bool WasEdited { get; set; }
 
-    public DateTime CreatedAt { get; set; } = DateTime.Now;
+    public DateTime CreatedAt { get; set; }
 
-    public DateTime EditedAt { get; set; } = DateTime.Now;
+    public DateTime EditedAt { get; set; }
 
     public string UserId { get; set; }
 }
