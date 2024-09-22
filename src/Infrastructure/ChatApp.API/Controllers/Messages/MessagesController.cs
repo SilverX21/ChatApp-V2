@@ -93,10 +93,7 @@ public class MessagesController : ControllerBase
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> GetAllMessages()
     {
-        var sessionId = HttpContext.Session.Id;
-        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-        var user = User.Identity.Name;
-        var user2 = User.Identity;
+        //var userId = User.FindFirstValue(ClaimTypes.Email);
 
         var result = await _messageService.GetAllMessages();
 

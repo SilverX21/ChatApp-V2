@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ChatApp.Domain.Models.Messages;
 
@@ -18,4 +19,8 @@ public class MessageModel
     public DateTime EditedAt { get; set; }
 
     public string UserId { get; set; }
+
+    [NotMapped]
+    [ForeignKey("UserId")]
+    public string UserModel { get; set; }
 }
