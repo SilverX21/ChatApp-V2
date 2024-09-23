@@ -23,14 +23,16 @@ public class AuthService : IAuthService
     private readonly ILogger _logger;
     private readonly UserManager<UserModel> _userManager;
     private readonly string _secretKey;
+    private readonly SignInManager<UserModel> _signInManager;
 
-    public AuthService(ApplicationDbContext context, ILogger logger, UserManager<UserModel> userManager, IConfiguration configuration)
+    public AuthService(ApplicationDbContext context, ILogger logger, UserManager<UserModel> userManager, IConfiguration configuration, SignInManager<UserModel> signInManager)
     {
         _configuration = configuration;
         _context = context;
         _logger = logger;
         _userManager = userManager;
         _secretKey = configuration.GetValue<string>("ApiSettings:Secret");
+        _signInManager = signInManager;
     }
 
     #endregion Private properties
@@ -219,11 +221,12 @@ public class AuthService : IAuthService
     {
         try
         {
+            _signInManager.SignOutAsync();
             return true;
         }
-        catch (Exception e)
+        catch (Exception ex)
         {
-            Console.WriteLine(e);
+            _logger.Error($"");
             return false;
         }
     }
@@ -247,7 +250,7 @@ public class AuthService : IAuthService
             Subject = new ClaimsIdentity(new Claim[]
             {
                 new Claim("fullName", dbUser.Name),
-                new Claim("id", dbUser.Id),
+                new Claim("userId", dbUser.Id),
                 new Claim(ClaimTypes.Email, dbUser.Email),
             }),
             Expires = DateTime.UtcNow.AddDays(1),

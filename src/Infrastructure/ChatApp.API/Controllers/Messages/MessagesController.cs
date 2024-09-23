@@ -4,7 +4,6 @@ using ChatApp.Domain.Models.Messages;
 using ChatApp.Domain.Models.User;
 using ChatApp.Domain.Validators.MessageValidator;
 using Microsoft.AspNetCore.Identity;
-using System.Security.Claims;
 using ChatApp.API.Services.Messages;
 using ChatApp.Domain.Helpers;
 using FluentValidation.Results;
@@ -81,6 +80,8 @@ public class MessagesController : ControllerBase
             });
         }
 
+        var userId = HttpContext?.User?.Claims?.Where(x => x.Type == "userId")?.FirstOrDefault()?.Value;
+
         var result = await _messageService.DeleteMessage(messageId);
 
         return _httpResponseHelper.GenerateMessageResponse(result);
@@ -93,8 +94,6 @@ public class MessagesController : ControllerBase
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> GetAllMessages()
     {
-        //var userId = User.FindFirstValue(ClaimTypes.Email);
-
         var result = await _messageService.GetAllMessages();
 
         return _httpResponseHelper.GenerateMessageResponse(result);
