@@ -94,7 +94,7 @@ public class AuthController : ControllerBase
     /// </summary>
     /// <param name="result"></param>
     /// <returns></returns>
-    public BaseOutputModel<LoginOutputModel> SetUserSession(BaseOutputModel<LoginOutputModel> result)
+    private BaseOutputModel<LoginOutputModel> SetUserSession(BaseOutputModel<LoginOutputModel> result)
     {
         if (!string.IsNullOrWhiteSpace(result?.Response?.Token))
         {
