@@ -1,6 +1,7 @@
 ﻿using ChatApp.Domain.Models.Auth.Login;
 using ChatApp.Domain.Models.Auth.Register;
 using ChatApp.Domain.Models.Base;
+using ChatApp.Domain.Models.User;
 
 namespace ChatApp.API.Services.Auth;
 
@@ -25,4 +26,11 @@ public interface IAuthService
     /// </summary>
     /// <returns>true or false if the user logged out successfully</returns>
     Task<bool> LogoutAsync();
+
+    /// <summary>
+    /// Signs in the user after creating the login credentials
+    /// </summary>
+    /// <param name="user">user to authenticate</param>
+    /// <returns>true or false if successful or not</returns>
+    Task<bool> SignInAsync(UserModel user);
 }

@@ -221,7 +221,22 @@ public class AuthService : IAuthService
     {
         try
         {
-            _signInManager.SignOutAsync();
+            await _signInManager.SignOutAsync();
+            return true;
+        }
+        catch (Exception ex)
+        {
+            _logger.Error($"");
+            return false;
+        }
+    }
+
+    /// <inheritdoc/>
+    public async Task<bool> SignInAsync(UserModel user)
+    {
+        try
+        {
+            await _signInManager.SignInAsync(user, true);
             return true;
         }
         catch (Exception ex)

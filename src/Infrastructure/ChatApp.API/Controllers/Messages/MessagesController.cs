@@ -37,6 +37,7 @@ public class MessagesController : ControllerBase
     #region Public Methods
 
     [HttpPost]
+    [Authorize]
     [ProducesResponseType<MessageModel>(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -62,6 +63,7 @@ public class MessagesController : ControllerBase
     }
 
     [HttpDelete("{messageId}")]
+    [Authorize]
     [ProducesResponseType<MessageModel>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -100,6 +102,7 @@ public class MessagesController : ControllerBase
     }
 
     [HttpGet("{userId}")]
+    [Authorize]
     [ProducesResponseType<MessageModel>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -124,6 +127,7 @@ public class MessagesController : ControllerBase
     }
 
     [HttpGet("{messageId}")]
+    [Authorize]
     [ProducesResponseType<MessageModel>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]

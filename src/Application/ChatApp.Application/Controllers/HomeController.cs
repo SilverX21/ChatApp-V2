@@ -1,8 +1,11 @@
 using System.Diagnostics;
 using ChatApp.Application.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ChatApp.Application.Controllers;
+
+[Authorize]
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;

@@ -61,8 +61,10 @@ public class AuthController : ControllerBase
     public async Task<IActionResult> Login([FromBody] LoginInputModel model)
     {
         var result = await _authService.LoginAsync(model);
+        //var signin = await _authService.SignInAsync(new Domain.Models.User.UserModel { Email = result.Response.Email });
+        // SetUserSession(result)
 
-        return _httpResponseHelper.GenerateMessageResponse(SetUserSession(result));
+        return _httpResponseHelper.GenerateMessageResponse(result);
     }
 
     /// <summary>
