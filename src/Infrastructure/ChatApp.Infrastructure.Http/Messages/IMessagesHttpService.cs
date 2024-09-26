@@ -8,11 +8,11 @@ public interface IMessagesHttpService
 {
     // POST: Create a new message
     [Post("/api/messages/create")]
-    Task<ApiResponse<BaseOutputModel<MessageModel>>> CreateMessage([Body] MessageModel message);
+    Task<ApiResponse<BaseOutputModel<MessageOutputModel>>> CreateMessage([Body] MessageInputModel message);
 
     // DELETE: Delete a message by ID
     [Delete("/api/messages/delete/{messageId}")]
-    Task<ApiResponse<BaseOutputModel<MessageModel>>> DeleteMessage(Guid messageId);
+    Task<ApiResponse<BaseOutputModel<MessageOutputModel>>> DeleteMessage(Guid messageId);
 
     // GET: Get all messages
     [Get("/api/messages/getallmessages")]
