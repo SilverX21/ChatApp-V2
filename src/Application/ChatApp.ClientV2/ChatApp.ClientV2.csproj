@@ -6,4 +6,21 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Markdig" Version="0.37.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.8" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.8" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.8">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Domain\ChatApp.Domain\ChatApp.Domain.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\ChatApp.API\ChatApp.API.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\ChatApp.Infrastructure.Http\ChatApp.Infrastructure.Http.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\ChatApp.Infrastructure\ChatApp.Infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>
