@@ -19,7 +19,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChatApp.Infrastructure", "s
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatApp.Infrastructure.Http", "src\Infrastructure\ChatApp.Infrastructure.Http\ChatApp.Infrastructure.Http.csproj", "{DAFAEF8F-86FB-4CD5-BB58-9B9837B4E210}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatApp.Client", "src\Application\ChatApp.Client\ChatApp.Client.csproj", "{27409AD9-4911-47F4-8DC8-90FCF2C108CB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatApp.ClientV2", "src\Application\ChatApp.ClientV2\ChatApp.ClientV2.csproj", "{3CB8D5B5-21AB-4219-8EA3-0210FAE97712}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,10 +47,10 @@ Global
 		{DAFAEF8F-86FB-4CD5-BB58-9B9837B4E210}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DAFAEF8F-86FB-4CD5-BB58-9B9837B4E210}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DAFAEF8F-86FB-4CD5-BB58-9B9837B4E210}.Release|Any CPU.Build.0 = Release|Any CPU
-		{27409AD9-4911-47F4-8DC8-90FCF2C108CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{27409AD9-4911-47F4-8DC8-90FCF2C108CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{27409AD9-4911-47F4-8DC8-90FCF2C108CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{27409AD9-4911-47F4-8DC8-90FCF2C108CB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3CB8D5B5-21AB-4219-8EA3-0210FAE97712}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3CB8D5B5-21AB-4219-8EA3-0210FAE97712}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3CB8D5B5-21AB-4219-8EA3-0210FAE97712}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3CB8D5B5-21AB-4219-8EA3-0210FAE97712}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -61,7 +61,7 @@ Global
 		{1F0600AE-E62C-47A0-9E83-BEE9472FDEFB} = {12023581-F2A1-43D2-8893-9E5CCCC71595}
 		{A8A25E25-A9F6-4E87-AF62-3DCA6768C225} = {4DB49AC1-92FF-46C3-96B6-0EFAEFE016D3}
 		{DAFAEF8F-86FB-4CD5-BB58-9B9837B4E210} = {4DB49AC1-92FF-46C3-96B6-0EFAEFE016D3}
-		{27409AD9-4911-47F4-8DC8-90FCF2C108CB} = {12023581-F2A1-43D2-8893-9E5CCCC71595}
+		{3CB8D5B5-21AB-4219-8EA3-0210FAE97712} = {12023581-F2A1-43D2-8893-9E5CCCC71595}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C57FBDB3-00B0-4305-89A6-16E53FC3D025}
