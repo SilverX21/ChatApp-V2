@@ -6,7 +6,7 @@ namespace ChatApp.Domain.Models.Messages;
 public class MessageModel
 {
     [Key]
-    public Guid Id { get; set; } = Guid.NewGuid();
+    public Guid Id { get; set; }
 
     [MaxLength(1000)]
     [Required]

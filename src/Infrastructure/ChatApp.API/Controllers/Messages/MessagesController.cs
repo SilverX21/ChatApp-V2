@@ -24,6 +24,8 @@ public class MessagesController : ControllerBase
     private MessageValidator _messageValidator;
     private readonly HttpResponseHelper _httpResponseHelper;
 
+    private const string userIdProperty = "userId";
+
     public MessagesController(IMessageService messageService, ILogger logger, UserManager<UserModel> userManager)
     {
         _messageService = messageService;
@@ -41,8 +43,23 @@ public class MessagesController : ControllerBase
     [ProducesResponseType<MessageModel>(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> Create([FromBody] MessageModel message)
+    public async Task<IActionResult> Create([FromBody] MessageInputModel message)
     {
+        if (message is null)
+        {
+            _logger.Warning($"The message object in the input was not valid. The message sent was null");
+            return BadRequest(new BaseOutputModel<MessageModel>
+            {
+                StatusCode = HttpStatusCode.BadRequest,
+                Success = false,
+                Response = null,
+                Message = $"The message object in the input was not valid. The message sent was null message."
+            });
+        }
+
+        var userId = HttpContext?.User?.Claims?.Where(x => x.Type == userIdProperty)?.FirstOrDefault()?.Value;
+        message.UserId = userId;
+
         var validations = await ValidateMessageInputAsync(message);
 
         if (validations.Errors.Any())
@@ -82,7 +99,7 @@ public class MessagesController : ControllerBase
             });
         }
 
-        var userId = HttpContext?.User?.Claims?.Where(x => x.Type == "userId")?.FirstOrDefault()?.Value;
+        var userId = HttpContext?.User?.Claims?.Where(x => x.Type == userIdProperty)?.FirstOrDefault()?.Value;
 
         var result = await _messageService.DeleteMessage(messageId);
 
@@ -160,7 +177,7 @@ public class MessagesController : ControllerBase
     /// </summary>
     /// <param name="message">message from the user input</param>
     /// <returns>validation results with errors, if there are any</returns>
-    private async Task<ValidationResult> ValidateMessageInputAsync(MessageModel message)
+    private async Task<ValidationResult> ValidateMessageInputAsync(MessageInputModel message)
     {
         var validationResults = await _messageValidator.ValidateAsync(message);
 

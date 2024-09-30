@@ -30,7 +30,7 @@ public interface IMessageService
     /// </summary>
     /// <param name="message">message to create in the database</param>
     /// <returns>if the message creation was successful or not</returns>
-    Task<BaseOutputModel<MessageModel>> CreateMessage(MessageModel message);
+    Task<BaseOutputModel<MessageOutputModel>> CreateMessage(MessageInputModel messageInput);
 
     /// <summary>
     /// Deletes a given message by its id

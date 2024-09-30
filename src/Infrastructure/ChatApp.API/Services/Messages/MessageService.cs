@@ -10,14 +10,14 @@ namespace ChatApp.API.Services.Messages;
 public class MessageService(ApplicationDbContext context, ILogger logger) : IMessageService
 {
     /// <inheritdoc/>
-    public async Task<BaseOutputModel<MessageModel>> CreateMessage(MessageModel message)
+    public async Task<BaseOutputModel<MessageOutputModel>> CreateMessage(MessageInputModel messageInput)
     {
         try
         {
-            if (message is null)
+            if (messageInput is null)
             {
                 logger.Warning("The message object to create is null. Please try again.");
-                return new BaseOutputModel<MessageModel>
+                return new BaseOutputModel<MessageOutputModel>
                 {
                     Success = false,
                     Message = "There is nothing to create, the message is null.",
@@ -25,11 +25,20 @@ public class MessageService(ApplicationDbContext context, ILogger logger) : IMes
                 };
             }
 
+            var message = new MessageModel
+            {
+                Content = messageInput.Content,
+                Id = Guid.NewGuid(),
+                CreatedAt = DateTime.UtcNow,
+                EditedAt = DateTime.UtcNow,
+                UserId = messageInput.UserId
+            };
+
             var result = await context.Messages.AddAsync(message);
             await context.SaveChangesAsync();
             logger.Information($"Message create! messageId: {result.Entity.Id}");
 
-            return new BaseOutputModel<MessageModel>
+            return new BaseOutputModel<MessageOutputModel>
             {
                 Success = true,
                 Message = "The message was created!",
@@ -39,7 +48,7 @@ public class MessageService(ApplicationDbContext context, ILogger logger) : IMes
         catch (Exception ex)
         {
             logger.Error($"There was an error while trying to create the message. Error: {ex.Message}");
-            return new BaseOutputModel<MessageModel>
+            return new BaseOutputModel<MessageOutputModel>
             {
                 Success = false,
                 Message = "There was an error while trying to create the message. please try again later.",
@@ -160,7 +169,6 @@ public class MessageService(ApplicationDbContext context, ILogger logger) : IMes
                 };
             }
 
-
             var result = await context.Messages.Where(x => x.UserId == userId.ToString()).ToListAsync();
 
             if (!result?.Any() is true)
@@ -226,7 +234,6 @@ public class MessageService(ApplicationDbContext context, ILogger logger) : IMes
                     StatusCode = HttpStatusCode.NotFound
                 };
             }
-
 
             return new BaseOutputModel<MessageModel>
             {
